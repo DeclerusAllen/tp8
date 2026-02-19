@@ -7,16 +7,13 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
-    // 1. Initialisation des données de fuseaux horaires
     tz_data.initializeTimeZones();
     
-    // 2. Récupération du fuseau horaire local (SANS package externe)
-    // Cela corrige l'erreur de compilation et le problème des 5 secondes
+    //mwen te gen yon problem nan Timezone nan, ki te anpeche sa k programe yo mache
     try {
       final String timeZoneName = DateTime.now().timeZoneName;
       tz.setLocalLocation(tz.getLocation(timeZoneName));
     } catch (e) {
-      // Si le nom du fuseau est inconnu, on utilise UTC par défaut pour éviter un crash
       tz.setLocalLocation(tz.getLocation('UTC'));
     }
 
@@ -42,7 +39,7 @@ class NotificationService {
     );
   }
 
-  // Demander la permission (Indispensable pour Android 13+)
+  // pemisyon
   Future<void> requestPermissions() async {
     final androidImplementation = _notificationsPlugin
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
@@ -51,7 +48,7 @@ class NotificationService {
     }
   }
 
-  // 1. Notification Immédiate
+  // imedyat
   Future<void> showNotification() async {
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       "channel_id_1",
@@ -68,7 +65,7 @@ class NotificationService {
     );
   }
 
-  // 2. Notification Programmée (5 secondes)
+  // programe 5 segonn
   Future<void> scheduleNotification() async {
     await _notificationsPlugin.zonedSchedule(
       1,
@@ -83,14 +80,14 @@ class NotificationService {
           priority: Priority.high,
         ),
       ),
-      // On utilise inexact pour éviter les restrictions strictes de Samsung
+      // mwen itilize `inexactAllowWhileIdle` pou evite pwoblèm ak Android 12+ ki limite alarm egzakt, sa tap banm problem pou notifikasyon ki pwograme pou 5 segonn lan
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
-  // 3. Notification Répétitive (Chaque minute)
+  // chak 5 minit
   Future<void> repeatNotification() async {
     await _notificationsPlugin.periodicallyShow(
       2,
@@ -104,7 +101,7 @@ class NotificationService {
     );
   }
 
-  // 4. Notification avec Grande Image
+  // notifikasyon imaj
   Future<void> showBigImageNotification() async {
     final style = BigPictureStyleInformation(
       const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
@@ -127,7 +124,7 @@ class NotificationService {
     );
   }
 
-  // 5. Notification avec Boutons d'Action
+  // bouton aksyon
   Future<void> showNotificationWithActions() async {
     await _notificationsPlugin.show(
       4,
