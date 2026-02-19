@@ -7,8 +7,18 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
-    // Initialisation des fuseaux horaires pour les notifications programmées
+    // 1. Initialisation des données de fuseaux horaires
     tz_data.initializeTimeZones();
+    
+    // 2. Récupération du fuseau horaire local (SANS package externe)
+    // Cela corrige l'erreur de compilation et le problème des 5 secondes
+    try {
+      final String timeZoneName = DateTime.now().timeZoneName;
+      tz.setLocalLocation(tz.getLocation(timeZoneName));
+    } catch (e) {
+      // Si le nom du fuseau est inconnu, on utilise UTC par défaut pour éviter un crash
+      tz.setLocalLocation(tz.getLocation('UTC'));
+    }
 
     const AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -73,7 +83,8 @@ class NotificationService {
           priority: Priority.high,
         ),
       ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      // On utilise inexact pour éviter les restrictions strictes de Samsung
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );
@@ -89,7 +100,7 @@ class NotificationService {
       const NotificationDetails(
         android: AndroidNotificationDetails("channel_id_3", "Repeat Notifications"),
       ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
     );
   }
 
@@ -106,7 +117,13 @@ class NotificationService {
       3,
       "Image !",
       "Regardez cette grande image",
-      NotificationDetails(android: AndroidNotificationDetails("channel_id_4", "Image Channel", styleInformation: style)),
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          "channel_id_4", 
+          "Image Channel", 
+          styleInformation: style
+        )
+      ),
     );
   }
 
