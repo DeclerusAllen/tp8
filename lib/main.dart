@@ -28,37 +28,51 @@ class MyApp extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () => service.showNotification(),
-              child: const Text("Voye Notifikasyon Rapid"),
+              child: const Text("Immediate Notification"),
             ),
             const Text("L ap voye yon notifikasyon kounye a menm sou telefòn ou."),
             const SizedBox(height: 20),
 
             ElevatedButton(
               onPressed: () => service.scheduleNotification(),
-              child: const Text("Pwogramasyon (5 segonn)"),
+              child: const Text("Scheduled Notification"),
             ),
             const Text("Notifikasyon sa ap parèt apre 5 segond si w klike sou li."),
             const SizedBox(height: 20),
 
             ElevatedButton(
               onPressed: () => service.repeatNotification(),
-              child: const Text("Repetisyon Chak Minit"),
+              child: const Text("Repeating Notification"),
             ),
             const Text("Opsyon sa ap fè notifikasyon an parèt chak minit."),
             const SizedBox(height: 20),
 
             ElevatedButton(
               onPressed: () => service.showBigImageNotification(),
-              child: const Text("Notifikasyon ak Gwo Foto"),
+              child: const Text("Notification Picture"),
             ),
-            const Text("W ap resevwa yon notifikasyon ki gen yon bèl foto ladan l."),
+            const Text("W ap resevwa yon notifikasyon ki gen yon foto ladan l."),
             const SizedBox(height: 20),
 
             ElevatedButton(
               onPressed: () => service.showNotificationWithActions(),
-              child: const Text("Notifikasyon ak Opsyon Aksyon"),
+              child: const Text("Notification with action"),
             ),
             const Text("Sa ap ba ou bouton pou w chwazi 'Aksepte' oswa 'Refize'."),
+            
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Divider(),
+            ),
+
+            ElevatedButton(
+              onPressed: () => service.cancelAll(),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text("Anile tout notifikasyon yo"),
+            ),
           ],
         ),
       ),
