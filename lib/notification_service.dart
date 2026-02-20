@@ -46,24 +46,28 @@ class NotificationService {
     }
   }
 
-  // 1. Imedyat
+  // 1. Imedyat ak son
   Future<void> showNotification() async {
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       "channel_id_1",
       "Notifikasyon Nomal",
       importance: Importance.max,
       priority: Priority.high,
+      playSound: true, // Ajoute son
     );
 
     await _notificationsPlugin.show(
       0,
       "Bonjou !",
       "Sa se yon notifikasyon k ap parèt rapid.",
-      const NotificationDetails(android: androidDetails),
+      const NotificationDetails(
+        android: androidDetails,
+        iOS: DarwinNotificationDetails(presentSound: true), // Ajoute son iOS
+      ),
     );
   }
 
-  // 2. Programe 5 segonn
+  // 2. Programe 5 segonn ak son
   Future<void> scheduleNotification() async {
     await _notificationsPlugin.zonedSchedule(
       1,
@@ -76,7 +80,9 @@ class NotificationService {
           "Notifikasyon Pwograme",
           importance: Importance.high,
           priority: Priority.high,
+          playSound: true, // Ajoute son
         ),
+        iOS: DarwinNotificationDetails(presentSound: true),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
@@ -84,7 +90,7 @@ class NotificationService {
     );
   }
 
-  // 3. Chak minit
+  // 3. Chak minit ak son
   Future<void> repeatNotification() async {
     await _notificationsPlugin.periodicallyShow(
       2,
@@ -92,19 +98,24 @@ class NotificationService {
       "Notifikasyon sa ap tounen chak minit",
       RepeatInterval.everyMinute,
       const NotificationDetails(
-        android: AndroidNotificationDetails("channel_id_3", "Notifikasyon Repete"),
+        android: AndroidNotificationDetails(
+          "channel_id_3", 
+          "Notifikasyon Repete",
+          playSound: true, // Ajoute son
+        ),
+        iOS: DarwinNotificationDetails(presentSound: true),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
     );
   }
 
-  // 4. Notifikasyon imaj
+  // 4. Notifikasyon imaj ak son
   Future<void> showBigImageNotification() async {
     final style = BigPictureStyleInformation(
       const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
       largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
       contentTitle: "Notifikasyon ak Foto",
-      summaryText: "Men foto a de mwayen",
+      summaryText: "Men foto a ak son",
     );
 
     await _notificationsPlugin.show(
@@ -115,13 +126,15 @@ class NotificationService {
         android: AndroidNotificationDetails(
           "channel_id_4", 
           "Seksyon Foto", 
-          styleInformation: style
-        )
+          styleInformation: style,
+          playSound: true, // Ajoute son
+        ),
+        iOS: DarwinNotificationDetails(presentSound: true),
       ),
     );
   }
 
-  // 5. Bouton aksyon
+  // 5. Bouton aksyon ak son
   Future<void> showNotificationWithActions() async {
     await _notificationsPlugin.show(
       4,
@@ -135,7 +148,9 @@ class NotificationService {
             AndroidNotificationAction("id_accept", "Aksepte"),
             AndroidNotificationAction("id_decline", "Refize"),
           ],
+          playSound: true, // Ajoute son
         ),
+        iOS: DarwinNotificationDetails(presentSound: true),
       ),
     );
   }
