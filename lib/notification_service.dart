@@ -73,7 +73,7 @@ class NotificationService {
       1,
       "Notifikasyon Pwograme",
       "5 segonn yo fini !",
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 2)),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           "channel_id_2",
